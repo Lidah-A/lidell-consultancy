@@ -63,10 +63,10 @@ export default function PersonalEditRequest() {
     <main className="min-h-screen flex items-start justify-center p-6 bg-[var(--bg)]">
       <PageSeo
         title="Personal Edit Request"
-        description="Submit a personal shopping and styling request, choose your budget currency, and get started with The Link."
+        description="Submit a personal shopping and styling request, choose your budget currency, and get started with Lidell Consultancy."
       />
       <form onSubmit={handleSubmit} className="brand-form card-hover">
-        <h1 className="brand-heading">Personal Edit — THE LINK</h1>
+        <h1 className="brand-heading">Personal Edit — LIDELL</h1>
         <p className="brand-subtle mt-1">Personal shopping & styling in Turkey. Mobile-friendly request form.</p>
 
         <label className="block mt-4">

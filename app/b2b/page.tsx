@@ -61,10 +61,10 @@ export default function B2BRequest() {
     <main className="min-h-screen flex items-start justify-center p-6 bg-[var(--bg)]">
       <PageSeo
         title="B2B Concierge"
-        description="Send wholesale and sourcing requests, choose a currency, and get a reply from The Link team."
+        description="Send wholesale and sourcing requests, choose a currency, and get a reply from the Lidell team."
       />
       <form onSubmit={handleSubmit} className="brand-form card-hover">
-        <h1 className="brand-heading">B2B Concierge — THE LINK</h1>
+        <h1 className="brand-heading">B2B Concierge — LIDELL</h1>
         <p className="brand-subtle mt-1">Sourcing & wholesale requests for Zambian businesses. Mobile-first form.</p>
 
         <label className="block mt-4">
