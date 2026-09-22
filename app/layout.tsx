@@ -16,7 +16,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Link",
+  metadataBase: new URL("https://the-link.vercel.app"),
+  title: {
+    default: "The Link",
+    template: "%s | The Link",
+  },
   description: "The Link sourcing platform for personal and business requests.",
 };
 

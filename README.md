@@ -34,3 +34,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Supabase Migrations
+
+Use the SQL files in `migrations/` with the Supabase SQL editor.
+
+- `migrations/001_create_chat_tables.sql` creates chat persistence tables.
+- `migrations/002_request_tracking_and_history.sql` adds shipping tracking fields and the request status history timeline table.
+- `migrations/003_order_messages_and_invoices.sql` adds per-order message threads and invoice storage.
+
+For a step-by-step production checklist, see:
+
+- `migrations/REQUEST_STATUS_HISTORY_CHECKLIST.md`

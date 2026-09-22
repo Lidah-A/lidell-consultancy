@@ -1,6 +1,8 @@
 "use client"
 import { useEffect, useState } from "react"
 import supabase from "@/lib/supabaseClient"
+import PageSeo from "@/app/components/PageSeo"
+import Link from "next/link"
 
 export default function PortalPage() {
   const [session, setSession] = useState<any>(null)
@@ -22,7 +24,12 @@ export default function PortalPage() {
     setLoading(true)
     const res = await supabase.auth.signInWithPassword({ email, password })
     setLoading(false)
-    if (res.error) setError(res.error.message)
+    if (res.error) {
+      const msg = (res.error.message || "").toLowerCase().includes("invalid login credentials")
+        ? "Invalid login credentials. Create an account first, then sign in."
+        : res.error.message
+      setError(msg)
+    }
     else setSession(res.data.session)
   }
 
@@ -53,6 +60,9 @@ export default function PortalPage() {
           <div className="mt-4 flex justify-between items-center">
             <button className="brand-btn-primary">Sign in</button>
           </div>
+          <p className="mt-3 text-sm text-gray-600">
+            No account yet? <Link href="/portal/signup" className="underline">Create client account</Link>
+          </p>
         </form>
       </main>
     )
@@ -60,6 +70,10 @@ export default function PortalPage() {
 
   return (
     <main className="min-h-screen p-6 bg-[var(--bg)]">
+      <PageSeo
+        title="Client Portal"
+        description="Sign in to track the status of your requests and sourced items."
+      />
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center">
           <h1 className="brand-heading">Client Portal</h1>

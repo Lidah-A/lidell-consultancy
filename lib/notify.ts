@@ -30,3 +30,24 @@ export async function notifyTeam(subject: string, text: string, html?: string) {
     console.error("Failed to send notification", err)
   }
 }
+
+export async function notifyEmail(to: string, subject: string, text: string, html?: string) {
+  if (!SENDGRID_KEY || !FROM_EMAIL) {
+    console.warn("Skipping notification: SENDGRID_API_KEY or NOTIFICATION_FROM_EMAIL not set")
+    return
+  }
+
+  const msg = {
+    to,
+    from: FROM_EMAIL,
+    subject,
+    text,
+    html,
+  }
+
+  try {
+    await sgMail.send(msg)
+  } catch (err) {
+    console.error("Failed to send email", err)
+  }
+}

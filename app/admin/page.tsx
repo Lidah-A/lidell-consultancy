@@ -1,12 +1,15 @@
 "use client"
 import { useEffect, useState } from "react"
 import supabase from "@/lib/supabaseClient"
+import PageSeo from "@/app/components/PageSeo"
 
 export default function AdminPage() {
   const [session, setSession] = useState<any>(null)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [requests, setRequests] = useState<any[]>([])
+  const [search, setSearch] = useState("")
+  const [statusFilter, setStatusFilter] = useState("all")
   const [error, setError] = useState<string | null>(null)
   const [editing, setEditing] = useState<Record<string, { status?: string; notes?: string }>>({})
 
@@ -61,6 +64,25 @@ export default function AdminPage() {
     setRequests([])
   }
 
+  const normalizedSearch = search.trim().toLowerCase()
+  const statusOptions = Array.from(
+    new Set(
+      requests
+        .map((r) => (r.order_status || r.status || "pending").toString())
+        .filter(Boolean)
+    )
+  )
+
+  const filteredRequests = requests.filter((r) => {
+    const clientName = (r.name ?? r.company ?? "").toString().toLowerCase()
+    const clientEmail = (r.email ?? "").toString().toLowerCase()
+    const status = (r.order_status || r.status || "pending").toString().toLowerCase()
+
+    const matchesSearch = !normalizedSearch || clientName.includes(normalizedSearch) || clientEmail.includes(normalizedSearch)
+    const matchesStatus = statusFilter === "all" || status === statusFilter.toLowerCase()
+    return matchesSearch && matchesStatus
+  })
+
   if (!session) {
     return (
       <main className="min-h-screen flex items-center justify-center p-6 bg-[var(--bg)]">
@@ -72,6 +94,9 @@ export default function AdminPage() {
           <div className="mt-4 flex justify-between items-center">
             <button className="brand-btn-primary">Sign in</button>
           </div>
+          <p className="mt-3 text-sm text-gray-600">
+            Admin accounts are created by the project owner. No public admin sign-up is enabled.
+          </p>
         </form>
       </main>
     )
@@ -79,6 +104,10 @@ export default function AdminPage() {
 
   return (
     <main className="min-h-screen p-6 bg-[var(--bg)]">
+        <PageSeo
+          title="Admin Dashboard"
+          description="Review and update incoming B2B and Personal Edit requests."
+        />
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center">
           <h1 className="brand-heading">Admin Dashboard</h1>
@@ -92,10 +121,35 @@ export default function AdminPage() {
           <button onClick={loadAll} className="brand-btn-primary">Load all requests</button>
         </div>
 
+        <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <label className="text-sm text-gray-700">Search client</label>
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="mt-1 w-full rounded border p-2"
+              placeholder="Search by name, company, or email"
+            />
+          </div>
+          <div>
+            <label className="text-sm text-gray-700">Filter by status</label>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="mt-1 w-full rounded border p-2"
+            >
+              <option value="all">All statuses</option>
+              {statusOptions.map((status) => (
+                <option key={status} value={status}>{status}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         {error && <p className="mt-4 text-red-600">{error}</p>}
 
         <div className="mt-4 grid grid-cols-1 gap-3">
-          {requests.map((r) => (
+          {filteredRequests.map((r) => (
             <div key={r.id} className="brand-card">
               <div className="flex justify-between">
                 <div>
