@@ -5,13 +5,13 @@ export default function Home() {
     <main className="min-h-screen bg-[radial-gradient(circle_at_top,#fef3c7_0%,#fff7ed_28%,#ffffff_60%)] text-zinc-950">
       <PageSeo
         title="Home"
-        description="The Link sourcing platform for personal edit requests, B2B sourcing, and Your Personal Assistant support."
+        description="Lidell Consultancy sourcing platform for personal edit requests, B2B sourcing, and Your Personal Assistant support."
       />
       <section className="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center px-6 py-16 sm:px-10 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
           <div className="space-y-8">
             <div className="inline-flex items-center rounded-full border border-amber-200 bg-white/80 px-4 py-2 text-sm font-medium text-amber-900 shadow-sm backdrop-blur">
-              The Link is live and ready
+              Lidell Consultancy is live and ready
             </div>
 
             <div className="space-y-5">

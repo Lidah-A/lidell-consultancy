@@ -16,8 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Link",
-  description: "The Link sourcing platform for personal and business requests.",
+  metadataBase: new URL("https://lidell-co.vercel.app"),
+  title: {
+    default: "Lidell Consultancy",
+    template: "%s | Lidell Consultancy",
+  },
+  description: "Lidell Consultancy sourcing platform for personal and business requests.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

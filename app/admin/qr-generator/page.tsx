@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 import { renderQRCodeToCanvas } from "../../../lib/qr"
+import PageSeo from "@/app/components/PageSeo"
 
 export default function QRGenerator() {
   const [target, setTarget] = useState("/personal-edit")
@@ -37,6 +38,10 @@ export default function QRGenerator() {
 
   return (
     <main className="min-h-screen p-6 bg-gray-50 flex items-start justify-center">
+      <PageSeo
+        title="QR Code Generator"
+        description="Generate downloadable QR codes for The Link request pages."
+      />
       <div className="w-full max-w-lg bg-white rounded shadow p-6">
         <h1 className="text-lg font-semibold">QR Code Generator</h1>
         <p className="text-sm text-gray-600 mt-1">Generate downloadable QR codes for portal pages (dependency-free).</p>

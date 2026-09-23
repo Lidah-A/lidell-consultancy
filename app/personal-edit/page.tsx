@@ -2,6 +2,7 @@
 import { useState } from "react"
 import SuccessConfirmation from "../components/SuccessConfirmation"
 import BudgetConverter, { currencyOptions, type CurrencyCode } from "@/app/components/BudgetConverter"
+import PageSeo from "@/app/components/PageSeo"
 
 export default function PersonalEditRequest() {
   const [form, setForm] = useState({
@@ -60,8 +61,12 @@ export default function PersonalEditRequest() {
 
   return (
     <main className="min-h-screen flex items-start justify-center p-6 bg-[var(--bg)]">
+      <PageSeo
+        title="Personal Edit Request"
+        description="Submit a personal shopping and styling request, choose your budget currency, and get started with Lidell Consultancy."
+      />
       <form onSubmit={handleSubmit} className="brand-form card-hover">
-        <h1 className="brand-heading">Personal Edit — THE LINK</h1>
+        <h1 className="brand-heading">Personal Edit — LIDELL</h1>
         <p className="brand-subtle mt-1">Personal shopping & styling in Turkey. Mobile-friendly request form.</p>
 
         <label className="block mt-4">

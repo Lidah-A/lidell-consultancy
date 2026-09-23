@@ -2,6 +2,29 @@ import { NextResponse } from "next/server"
 import supabase from "@/lib/supabaseServer"
 import { z } from "zod"
 import { notifyTeam } from "../../../lib/notify"
+import { ensureInvoiceForRequest } from "@/lib/orderInvoice"
+
+async function insertWithSchemaFallback(initialPayload: Record<string, unknown>) {
+  const payload: Record<string, unknown> = { ...initialPayload }
+
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const { data, error } = await supabase.from("sourcing_requests").insert([payload]).select()
+
+    if (!error) return { data, error: null }
+
+    const missingColumn = /Could not find the '([^']+)' column/.exec(error.message)?.[1]
+    if (!missingColumn || !(missingColumn in payload)) {
+      return { data: null, error }
+    }
+
+    delete payload[missingColumn]
+  }
+
+  return {
+    data: null,
+    error: { message: "Insert failed after removing unsupported columns." },
+  }
+}
 
 const PersonalSchema = z.object({
   name: z.string().min(1),
@@ -34,7 +57,7 @@ export async function POST(req: Request) {
       created_at: new Date().toISOString(),
     }
 
-    const { data, error } = await supabase.from("sourcing_requests").insert([payload]).select()
+    const { data, error } = await insertWithSchemaFallback(payload)
 
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 })
@@ -53,8 +76,18 @@ export async function POST(req: Request) {
       }
     })()
 
-    return NextResponse.json({ success: true, id: data?.[0]?.id ?? null }, { status: 201 })
+    const requestId = data?.[0]?.id ?? null
+    if (requestId) {
+      try {
+        await ensureInvoiceForRequest(String(requestId), "system")
+      } catch (e) {
+        console.warn("Failed to auto-generate invoice", e)
+      }
+    }
+
+    return NextResponse.json({ success: true, id: requestId }, { status: 201 })
   } catch (err) {
+    console.error("/api/personal-edit failed", err)
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 })
   }
 }

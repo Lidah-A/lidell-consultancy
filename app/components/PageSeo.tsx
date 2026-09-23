@@ -10,7 +10,7 @@ type Props = {
 export default function PageSeo({ title, description }: Props) {
   useEffect(() => {
     const previousTitle = document.title
-    const brandedTitle = title.endsWith("| The Link") ? title : `${title} | The Link`
+    const brandedTitle = title.endsWith("| Lidell Consultancy") ? title : `${title} | Lidell Consultancy`
     const meta = document.head.querySelector('meta[name="description"]') ?? (() => {
       const tag = document.createElement("meta")
       tag.setAttribute("name", "description")

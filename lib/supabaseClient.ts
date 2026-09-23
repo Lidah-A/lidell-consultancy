@@ -1,7 +1,17 @@
 import { createClient } from "@supabase/supabase-js"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || ""
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || ""
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPERBASE_URL ||
+  process.env.SUPABASE_URL ||
+  ""
+
+const supabaseAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  process.env.SUPABASE_PUBLISHABLE_KEY ||
+  process.env.SUPABASE_ANON_KEY ||
+  ""
 
 let supabaseClient: any
 
@@ -35,6 +45,12 @@ if (supabaseUrl && supabaseAnonKey) {
       signInWithPassword: async (_: any) => {
         if (mockUser) return { data: { session: { user: mockUser, access_token: "mock-token" } }, error: null }
         return { data: { session: null }, error: { message: "Supabase not configured" } }
+      },
+      signUp: async ({ email, password }: any) => {
+        if (mockUser || !email || !password) {
+          return { data: { user: mockUser ?? { email }, session: mockUser ? { user: mockUser, access_token: "mock-token" } : null }, error: null }
+        }
+        return { data: { user: null, session: null }, error: { message: "Supabase not configured" } }
       },
       signOut: async () => ({ error: null }),
       getUser: async () => ({ data: { user: mockUser }, error: null }),
