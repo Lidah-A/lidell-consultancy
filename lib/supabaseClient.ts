@@ -46,6 +46,12 @@ if (supabaseUrl && supabaseAnonKey) {
         if (mockUser) return { data: { session: { user: mockUser, access_token: "mock-token" } }, error: null }
         return { data: { session: null }, error: { message: "Supabase not configured" } }
       },
+      signUp: async ({ email, password }: any) => {
+        if (mockUser || !email || !password) {
+          return { data: { user: mockUser ?? { email }, session: mockUser ? { user: mockUser, access_token: "mock-token" } : null }, error: null }
+        }
+        return { data: { user: null, session: null }, error: { message: "Supabase not configured" } }
+      },
       signOut: async () => ({ error: null }),
       getUser: async () => ({ data: { user: mockUser }, error: null }),
     },

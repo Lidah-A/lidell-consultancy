@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import supabase from "@/lib/supabaseClient"
 import PageSeo from "@/app/components/PageSeo"
@@ -91,11 +92,14 @@ export default function AdminPage() {
           <label className="block mt-4"><span className="text-sm">Email</span><input className="mt-1 w-full p-2 border rounded" value={email} onChange={e=>setEmail(e.target.value)} /></label>
           <label className="block mt-3"><span className="text-sm">Password</span><input type="password" className="mt-1 w-full p-2 border rounded" value={password} onChange={e=>setPassword(e.target.value)} /></label>
           {error && <p className="text-red-600 mt-2">{error}</p>}
-          <div className="mt-4 flex justify-between items-center">
+          <div className="mt-4 flex justify-between items-center gap-3">
             <button className="brand-btn-primary">Sign in</button>
           </div>
           <p className="mt-3 text-sm text-gray-600">
-            Admin accounts are created by the project owner. No public admin sign-up is enabled.
+            Need a new admin account? <Link href="/admin/signup" className="underline">Create admin account</Link>
+          </p>
+          <p className="mt-2 text-sm text-gray-600">
+            Use the same admin email listed in your Vercel env var <span className="font-medium">ADMIN_EMAILS</span> to grant access.
           </p>
         </form>
       </main>
