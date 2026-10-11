@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Link",
-  description: "The Link sourcing platform for personal and business requests.",
+  title: "Lidell Consultancy",
+  description: "Lidell Consultancy sourcing platform for personal and business requests.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

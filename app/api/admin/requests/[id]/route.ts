@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import supabase from "@/lib/supabaseServer"
+import { getRequestBranch } from "@/lib/requestType"
 import { z } from "zod"
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || process.env.TEAM_NOTIFICATION_EMAIL || "").split(",").map(s => s.trim()).filter(Boolean)
@@ -41,7 +42,8 @@ export async function PATCH(req: Request, context: any) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ success: true, request: data?.[0] ?? null })
+    const request = data?.[0] ? { ...data[0], branch: data[0].branch ?? getRequestBranch(data[0]) } : null
+    return NextResponse.json({ success: true, request })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 })
   }
@@ -68,7 +70,8 @@ export async function GET(req: Request, context: any) {
     const id = (context.params && context.params.id) || context.params?.id
     const { data, error } = await supabase.from("sourcing_requests").select("*").eq("id", id)
     if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 })
-    return NextResponse.json({ success: true, request: data?.[0] ?? null })
+    const request = data?.[0] ? { ...data[0], branch: data[0].branch ?? getRequestBranch(data[0]) } : null
+    return NextResponse.json({ success: true, request })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 })
   }

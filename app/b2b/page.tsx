@@ -13,6 +13,8 @@ export default function B2BRequest() {
     categories: "",
     orderSize: "",
     orderCurrency: "USD",
+    budget: "",
+    budgetCurrency: "USD",
     timeline: "",
     notes: "",
   })
@@ -32,7 +34,7 @@ export default function B2BRequest() {
       const res = await fetch("/api/b2b", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ branch: "b2b", ...form }),
+        body: JSON.stringify(form),
       })
       const json = await res.json()
       if (!res.ok || !json.success) {
@@ -59,7 +61,7 @@ export default function B2BRequest() {
   return (
     <main className="min-h-screen flex items-start justify-center p-6 bg-[var(--bg)]">
       <form onSubmit={handleSubmit} className="brand-form card-hover">
-        <h1 className="brand-heading">B2B Concierge — THE LINK</h1>
+        <h1 className="brand-heading">Lidell Consultancy B2B Concierge</h1>
         <p className="brand-subtle mt-1">Sourcing & wholesale requests for Zambian businesses. Mobile-first form.</p>
 
         <label className="block mt-4">
@@ -99,26 +101,69 @@ export default function B2BRequest() {
           <input name="categories" value={form.categories} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-200 p-2" placeholder="e.g. apparel, homeware" />
         </label>
 
-        <div className="grid grid-cols-2 gap-3 mt-3">
-          <label className="block">
-            <span className="text-sm font-medium text-gray-700">Order size</span>
-            <div className="mt-1 flex gap-2">
-              <input name="orderSize" value={form.orderSize} onChange={handleChange} className="flex-1 rounded-md border-gray-200 p-2" placeholder="e.g. 1000 or 5000" />
-              <select name="orderCurrency" value={form.orderCurrency} onChange={handleChange} className="w-28 rounded-md border-gray-200 p-2">
-                {currencyOptions.map((option) => (
-                  <option key={option.code} value={option.code}>{option.label}</option>
-                ))}
+        <div className="mt-3 grid gap-3">
+          <div className="rounded-xl border border-gray-200 bg-white p-3">
+            <label className="block">
+              <span className="text-sm font-medium text-gray-700">Order size</span>
+              <div className="mt-1 grid grid-cols-[minmax(0,1fr)_150px] gap-2">
+                <input
+                  type="number"
+                  min="1"
+                  name="orderSize"
+                  value={form.orderSize}
+                  onChange={handleChange}
+                  className="rounded-md border-gray-200 p-2"
+                  placeholder="e.g. 1000"
+                />
+                <select name="orderCurrency" value={form.orderCurrency} onChange={handleChange} className="rounded-md border-gray-200 p-2">
+                  {currencyOptions.map((option) => (
+                    <option key={option.code} value={option.code}>{option.code}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="mt-2">
+                {/* @ts-ignore */}
+                <BudgetConverter value={form.orderSize} currency={form.orderCurrency as any} />
+              </div>
+            </label>
+          </div>
+
+          <div className="rounded-xl border border-gray-200 bg-white p-3">
+            <label className="block">
+              <span className="text-sm font-medium text-gray-700">Estimated budget</span>
+              <div className="mt-1 grid grid-cols-[minmax(0,1fr)_150px] gap-2">
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  name="budget"
+                  value={form.budget}
+                  onChange={handleChange}
+                  className="rounded-md border-gray-200 p-2"
+                  placeholder="e.g. 2500"
+                />
+                <select name="budgetCurrency" value={form.budgetCurrency} onChange={handleChange} className="rounded-md border-gray-200 p-2">
+                  {currencyOptions.map((option) => (
+                    <option key={option.code} value={option.code}>{option.code}</option>
+                  ))}
+                </select>
+              </div>
+            </label>
+          </div>
+
+          <div className="rounded-xl border border-gray-200 bg-white p-3">
+            <label className="block">
+              <span className="text-sm font-medium text-gray-700">Target timeline</span>
+              <select name="timeline" value={form.timeline} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-200 p-2">
+                <option value="">Select timeline</option>
+                <option value="ASAP">ASAP</option>
+                <option value="2-4 weeks">2-4 weeks</option>
+                <option value="1-2 months">1-2 months</option>
+                <option value="3-6 months">3-6 months</option>
+                <option value="Flexible">Flexible</option>
               </select>
-            </div>
-            <div className="mt-2">
-              {/* @ts-ignore */}
-              <BudgetConverter value={form.orderSize} currency={form.orderCurrency as any} />
-            </div>
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-gray-700">Timeline</span>
-            <input name="timeline" value={form.timeline} onChange={handleChange} className="mt-1 block w-full rounded-md border-gray-200 p-2" placeholder="e.g. 4-6 weeks" />
-          </label>
+            </label>
+          </div>
         </div>
 
         <label className="block mt-3">

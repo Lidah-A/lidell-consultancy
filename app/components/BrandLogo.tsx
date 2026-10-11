@@ -2,7 +2,7 @@ export default function BrandLogo({ size = 40 }: { size?: number }) {
   const s = size
   return (
     <svg width={s} height={s} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <title>THE LINK logo</title>
+      <title>Lidell Consultancy logo</title>
       <g stroke="var(--brand-500)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none">
         {/* two intersecting globes */}
         <circle cx="22" cy="32" r="14" opacity="0.95" />

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import supabase from "@/lib/supabaseServer"
+import { getRequestBranch } from "@/lib/requestType"
 
 export async function GET(req: Request) {
   try {
@@ -22,7 +23,12 @@ export async function GET(req: Request) {
     const { data, error } = await supabase.from("sourcing_requests").select("*").eq("email", email).order("created_at", { ascending: false })
     if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 })
 
-    return NextResponse.json({ success: true, requests: data })
+    const requests = (data || []).map((request: Record<string, any>) => ({
+      ...request,
+      branch: request.branch ?? getRequestBranch(request),
+    }))
+
+    return NextResponse.json({ success: true, requests })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 })
   }

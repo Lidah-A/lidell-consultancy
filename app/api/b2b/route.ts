@@ -11,6 +11,9 @@ const B2BSchema = z.object({
   businessType: z.string().optional(),
   categories: z.string().optional(),
   orderSize: z.string().optional(),
+  orderCurrency: z.string().optional(),
+  budget: z.string().optional(),
+  budgetCurrency: z.string().optional(),
   timeline: z.string().optional(),
   notes: z.string().optional(),
 })
@@ -18,16 +21,16 @@ const B2BSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const parsed = B2BSchema.safeParse(body)
+    const { branch: _ignoredBranch, ...cleanBody } = body
+    const parsed = B2BSchema.safeParse(cleanBody)
     if (!parsed.success) {
       const err = parsed.error.flatten()
       return NextResponse.json({ success: false, error: err.fieldErrors || err.formErrors }, { status: 400 })
     }
 
-    const { company, email, contact, phone, businessType, categories, orderSize, timeline, notes } = parsed.data
+    const { company, email, contact, phone, businessType, categories, orderSize, orderCurrency, budget, budgetCurrency, timeline, notes } = parsed.data
 
     const payload = {
-      branch: "b2b",
       company,
       contact: contact ?? null,
       email,
@@ -35,6 +38,9 @@ export async function POST(req: Request) {
       business_type: businessType ?? null,
       categories: categories ?? null,
       order_size: orderSize ?? null,
+      order_currency: orderCurrency ?? null,
+      budget: budget ?? null,
+      budget_currency: budgetCurrency ?? null,
       timeline: timeline ?? null,
       notes: notes ?? null,
       created_at: new Date().toISOString(),

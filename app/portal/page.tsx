@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import supabase from "@/lib/supabaseClient"
+import { getRequestBranch } from "@/lib/requestType"
 
 export default function PortalPage() {
   const [session, setSession] = useState<any>(null)
@@ -46,7 +47,7 @@ export default function PortalPage() {
     return (
       <main className="min-h-screen flex items-center justify-center p-6 bg-[var(--bg)]">
         <form onSubmit={signIn} className="brand-form">
-          <h1 className="brand-heading">Client Portal — Sign in</h1>
+          <h1 className="brand-heading">Lidell Consultancy Client Portal — Sign in</h1>
           <label className="block mt-4"><span className="text-sm">Email</span><input className="mt-1 w-full p-2 border rounded" value={email} onChange={e=>setEmail(e.target.value)} /></label>
           <label className="block mt-3"><span className="text-sm">Password</span><input type="password" className="mt-1 w-full p-2 border rounded" value={password} onChange={e=>setPassword(e.target.value)} /></label>
           {error && <p className="text-red-600 mt-2">{error}</p>}
@@ -62,7 +63,7 @@ export default function PortalPage() {
     <main className="min-h-screen p-6 bg-[var(--bg)]">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center">
-          <h1 className="brand-heading">Client Portal</h1>
+          <h1 className="brand-heading">Lidell Consultancy Client Portal</h1>
           <div>
             <button onClick={signOut} className="brand-btn-accent">Sign out</button>
           </div>
@@ -75,11 +76,13 @@ export default function PortalPage() {
 
         {loading && <p className="mt-4">Loading...</p>}
         <div className="mt-4 space-y-3">
-          {requests.map((r) => (
+          {requests.map((r) => {
+            const branch = getRequestBranch(r)
+            return (
             <div key={r.id} className="brand-card card-hover">
               <div className="flex justify-between">
                 <div>
-                  <div className="text-sm text-gray-500">{r.branch?.toUpperCase()}</div>
+                  <div className="text-sm text-gray-500">{branch.toUpperCase()}</div>
                   <div className="font-medium">{r.name ?? r.company}</div>
                   <div className="text-sm text-gray-600">{r.email}</div>
                   <div className="mt-1"><span className="text-xs font-medium text-gray-700">Status: </span><span className="text-sm">{r.status ?? 'Pending'}</span></div>
@@ -88,7 +91,8 @@ export default function PortalPage() {
               </div>
               <div className="mt-2 text-sm text-gray-700">{r.details || r.notes || "—"}</div>
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </main>

@@ -15,7 +15,8 @@ const PersonalSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const parsed = PersonalSchema.safeParse(body)
+    const { branch: _ignoredBranch, ...cleanBody } = body
+    const parsed = PersonalSchema.safeParse(cleanBody)
     if (!parsed.success) {
       const err = parsed.error.flatten()
       return NextResponse.json({ success: false, error: err.fieldErrors || err.formErrors }, { status: 400 })
@@ -24,7 +25,6 @@ export async function POST(req: Request) {
     const { name, email, phone, style, budget, details } = parsed.data
 
     const payload = {
-      branch: "personal",
       name,
       email,
       phone: phone ?? null,

@@ -29,7 +29,7 @@ export default function PersonalEditRequest() {
       const res = await fetch("/api/personal-edit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ branch: "personal", ...form }),
+        body: JSON.stringify(form),
       })
       const json = await res.json()
       if (!res.ok || !json.success) {
@@ -61,7 +61,7 @@ export default function PersonalEditRequest() {
   return (
     <main className="min-h-screen flex items-start justify-center p-6 bg-[var(--bg)]">
       <form onSubmit={handleSubmit} className="brand-form card-hover">
-        <h1 className="brand-heading">Personal Edit — THE LINK</h1>
+        <h1 className="brand-heading">Lidell Consultancy Personal Edit</h1>
         <p className="brand-subtle mt-1">Personal shopping & styling in Turkey. Mobile-friendly request form.</p>
 
         <label className="block mt-4">

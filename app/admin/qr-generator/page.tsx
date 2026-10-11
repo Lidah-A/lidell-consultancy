@@ -23,7 +23,7 @@ export default function QRGenerator() {
         const urlBlob = URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = urlBlob
-        a.download = `the-link-qr-${target.replace("/", "")}.png`
+        a.download = `lidell-consultancy-qr-${target.replace("/", "")}.png`
         document.body.appendChild(a)
         a.click()
         a.remove()

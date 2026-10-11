@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import supabase from "@/lib/supabaseServer"
+import { getRequestBranch } from "@/lib/requestType"
 
 export async function GET(req: Request, context: any) {
   try {
@@ -22,7 +23,8 @@ export async function GET(req: Request, context: any) {
     if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 })
     if (!data || data.length === 0) return NextResponse.json({ success: false, error: "Not found or unauthorized" }, { status: 404 })
 
-    return NextResponse.json({ success: true, request: data[0] })
+    const request = { ...data[0], branch: data[0].branch ?? getRequestBranch(data[0]) }
+    return NextResponse.json({ success: true, request })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 })
   }

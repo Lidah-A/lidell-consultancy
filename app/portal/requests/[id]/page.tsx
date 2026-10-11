@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState, useRef } from "react"
 import supabase from "@/lib/supabaseClient"
+import { getRequestBranch } from "@/lib/requestType"
 
 export default function PortalRequestDetail({ params }: { params: { id: string } }) {
   const { id } = params
@@ -80,7 +81,7 @@ export default function PortalRequestDetail({ params }: { params: { id: string }
         {loading && <p>Loading...</p>}
         {request && (
           <div className="mt-4">
-            <p><strong>Branch:</strong> {request.branch}</p>
+            <p><strong>Branch:</strong> {getRequestBranch(request)}</p>
             <p><strong>Name/Company:</strong> {request.name ?? request.company}</p>
             <p className="mt-2 text-sm text-gray-700">{request.details || request.notes}</p>
             <div className="mt-4">

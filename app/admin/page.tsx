@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import supabase from "@/lib/supabaseClient"
+import { getRequestBranch } from "@/lib/requestType"
 
 export default function AdminPage() {
   const [session, setSession] = useState<any>(null)
@@ -65,7 +66,7 @@ export default function AdminPage() {
     return (
       <main className="min-h-screen flex items-center justify-center p-6 bg-[var(--bg)]">
         <form onSubmit={signIn} className="brand-form">
-          <h1 className="brand-heading">Admin — Sign in</h1>
+          <h1 className="brand-heading">Lidell Consultancy Admin — Sign in</h1>
           <label className="block mt-4"><span className="text-sm">Email</span><input className="mt-1 w-full p-2 border rounded" value={email} onChange={e=>setEmail(e.target.value)} /></label>
           <label className="block mt-3"><span className="text-sm">Password</span><input type="password" className="mt-1 w-full p-2 border rounded" value={password} onChange={e=>setPassword(e.target.value)} /></label>
           {error && <p className="text-red-600 mt-2">{error}</p>}
@@ -95,11 +96,13 @@ export default function AdminPage() {
         {error && <p className="mt-4 text-red-600">{error}</p>}
 
         <div className="mt-4 grid grid-cols-1 gap-3">
-          {requests.map((r) => (
+          {requests.map((r) => {
+            const branch = getRequestBranch(r)
+            return (
             <div key={r.id} className="brand-card">
               <div className="flex justify-between">
                 <div>
-                  <div className="text-sm text-gray-500">{r.branch?.toUpperCase()}</div>
+                  <div className="text-sm text-gray-500">{branch.toUpperCase()}</div>
                   <div className="font-medium">{r.name ?? r.company}</div>
                   <div className="text-sm text-gray-600">{r.email}</div>
                 </div>
@@ -129,7 +132,8 @@ export default function AdminPage() {
                 <button onClick={() => updateRequest(r.id)} className="brand-btn-primary">Save</button>
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </main>

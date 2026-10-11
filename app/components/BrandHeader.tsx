@@ -12,7 +12,7 @@ export default function BrandHeader() {
             <BrandLogo size={40} />
           </div>
           <div>
-            <div className="text-sm font-semibold text-[var(--brand-500)]">THE LINK</div>
+            <div className="text-sm font-semibold text-[var(--brand-500)]">Lidell Consultancy</div>
             <div className="text-xs text-[var(--muted)]">Sourcing & curation</div>
           </div>
         </Link>
