@@ -105,22 +105,15 @@ export default function B2BRequest() {
           <div className="rounded-xl border border-gray-200 bg-white p-3">
             <label className="block">
               <span className="text-sm font-medium text-gray-700">Order size</span>
-              <div className="mt-1 grid grid-cols-[minmax(0,1fr)_150px] gap-2">
-                <input
-                  type="number"
-                  min="1"
-                  name="orderSize"
-                  value={form.orderSize}
-                  onChange={handleChange}
-                  className="rounded-md border-gray-200 p-2"
-                  placeholder="e.g. 1000"
-                />
-                <select name="orderCurrency" value={form.orderCurrency} onChange={handleChange} className="rounded-md border-gray-200 p-2">
-                  {currencyOptions.map((option) => (
-                    <option key={option.code} value={option.code}>{option.code}</option>
-                  ))}
-                </select>
-              </div>
+              <input
+                type="number"
+                min="1"
+                name="orderSize"
+                value={form.orderSize}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-200 p-2"
+                placeholder="e.g. 1000"
+              />
               <div className="mt-2">
                 {/* @ts-ignore */}
                 <BudgetConverter value={form.orderSize} currency={form.orderCurrency as any} />
