@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import supabase from "@/lib/supabaseServer"
+import { sanitizeSourcingRequestPayload } from "@/lib/requestType"
 
 export async function POST(req: Request) {
   try {
@@ -7,7 +8,7 @@ export async function POST(req: Request) {
     const { branch: _ignoredBranch, ...payload } = body
     // Insert the incoming data into the sourcing_requests table.
     // The current schema does not include a branch column, so we only persist the real request fields.
-    const finalPayload = { ...payload, created_at: new Date().toISOString() }
+    const finalPayload = sanitizeSourcingRequestPayload({ ...payload, created_at: new Date().toISOString() })
 
     const { data, error } = await supabase.from("sourcing_requests").insert([finalPayload]).select()
 

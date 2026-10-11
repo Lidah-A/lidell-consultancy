@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import supabase from "@/lib/supabaseServer"
+import { sanitizeSourcingRequestPayload } from "@/lib/requestType"
 import { z } from "zod"
 import { notifyTeam } from "../../../lib/notify"
 
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
 
     const { company, email, contact, phone, businessType, categories, orderSize, orderCurrency, budget, budgetCurrency, timeline, notes } = parsed.data
 
-    const payload = {
+    const payload = sanitizeSourcingRequestPayload({
       company,
       contact: contact ?? null,
       email,
@@ -40,11 +41,11 @@ export async function POST(req: Request) {
       order_size: orderSize ?? null,
       order_currency: orderCurrency ?? null,
       budget: budget ?? null,
-      budget_currency: budgetCurrency ?? null,
+      budgetCurrency: budgetCurrency ?? null,
       timeline: timeline ?? null,
       notes: notes ?? null,
       created_at: new Date().toISOString(),
-    }
+    })
 
     const { data, error } = await supabase.from("sourcing_requests").insert([payload]).select()
 
