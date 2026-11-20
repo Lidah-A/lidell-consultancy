@@ -4,9 +4,14 @@ import QRCode from "qrcode"
 
 export default function QRGenerator() {
   const [target, setTarget] = useState("/personal-edit")
+  const [url, setUrl] = useState(target)
+  const [mounted, setMounted] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
-  const url = typeof window !== "undefined" ? `${window.location.origin}${target}` : target
+  useEffect(() => {
+    setUrl(`${window.location.origin}${target}`)
+    setMounted(true)
+  }, [target])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -57,7 +62,7 @@ export default function QRGenerator() {
           </div>
           <div className="mt-4 flex gap-3">
             <button onClick={download} className="px-4 py-2 bg-blue-600 text-white rounded">Download PNG</button>
-            <a href={url} target="_blank" rel="noreferrer" className="px-4 py-2 bg-gray-100 rounded">Open target</a>
+            <a href={mounted ? url : target} target="_blank" rel="noreferrer" className="px-4 py-2 bg-gray-100 rounded">Open target</a>
           </div>
         </div>
       </div>
