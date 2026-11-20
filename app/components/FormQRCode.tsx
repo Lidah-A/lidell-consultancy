@@ -10,7 +10,7 @@ interface FormQRCodeProps {
 
 export default function FormQRCode({ path, title }: FormQRCodeProps) {
   const [imageUrl, setImageUrl] = useState("")
-  const [linkUrl, setLinkUrl] = useState(path)
+  const [linkUrl, setLinkUrl] = useState<string>(path)
 
   useEffect(() => {
     const absoluteUrl = `${window.location.origin}${path}`
