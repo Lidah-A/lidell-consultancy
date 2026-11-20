@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import supabase from "@/lib/supabaseClient"
 import { getRequestBranch } from "@/lib/requestType"
+import Link from "next/link"
 
 export default function AdminPage() {
   const [session, setSession] = useState<any>(null)
@@ -89,8 +90,9 @@ export default function AdminPage() {
         </div>
         <p className="brand-subtle mt-2">All incoming B2B and Personal Edit requests.</p>
 
-        <div className="mt-4">
+        <div className="mt-4 flex gap-3">
           <button onClick={loadAll} className="brand-btn-primary">Load all requests</button>
+          <Link href="/admin/qr-generator" className="brand-btn-accent">QR Code Generator</Link>
         </div>
 
         {error && <p className="mt-4 text-red-600">{error}</p>}

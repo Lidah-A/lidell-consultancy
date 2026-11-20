@@ -2,7 +2,6 @@
 import { useState } from "react"
 import SuccessConfirmation from "../components/SuccessConfirmation"
 import BudgetConverter, { currencyOptions } from "@/app/components/BudgetConverter"
-import FormQRCode from "@/app/components/FormQRCode"
 
 export default function B2BRequest() {
   const [form, setForm] = useState({
@@ -173,10 +172,6 @@ export default function B2BRequest() {
           <a href="/" className="text-sm text-[var(--muted)]">Back to home</a>
         </div>
       </form>
-
-      <div className="mt-8 w-full max-w-md px-4">
-        <FormQRCode path="/b2b" title="the B2B Concierge form" />
-      </div>
     </main>
   )
 }
