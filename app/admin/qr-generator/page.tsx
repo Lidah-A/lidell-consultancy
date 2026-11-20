@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-import { renderQRCodeToCanvas } from "../../../lib/qr"
+import QRCode from "qrcode"
 
 export default function QRGenerator() {
   const [target, setTarget] = useState("/personal-edit")
@@ -11,7 +11,9 @@ export default function QRGenerator() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    renderQRCodeToCanvas(url, 400, canvas)
+    QRCode.toCanvas(canvas, url, { width: 400 }, (error) => {
+      if (error) console.error("Error generating QR code:", error)
+    })
   }, [target, url])
 
   function download() {

@@ -2,6 +2,7 @@
 import { useState } from "react"
 import SuccessConfirmation from "../components/SuccessConfirmation"
 import BudgetConverter, { currencyOptions, type CurrencyCode } from "@/app/components/BudgetConverter"
+import FormQRCode from "@/app/components/FormQRCode"
 
 export default function PersonalEditRequest() {
   const [form, setForm] = useState({
@@ -119,6 +120,10 @@ export default function PersonalEditRequest() {
           <a href="/" className="text-sm text-[var(--muted)]">Back to home</a>
         </div>
       </form>
+
+      <div className="mt-8 w-full max-w-md px-4">
+        <FormQRCode path="/personal-edit" title="the Personal Edit form" />
+      </div>
     </main>
   )
 }
